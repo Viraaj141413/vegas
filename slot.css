@@ -1,0 +1,64 @@
+.slot-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-controls {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#slotCanvas {
+    border: 3px solid var(--bs-warning);
+    border-radius: 10px;
+    background: var(--bs-dark);
+}
+
+.balance-display {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.balance-box {
+    background: var(--bs-dark);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.balance-box h5 {
+    margin: 0;
+    color: var(--bs-warning);
+}
+
+#message {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.payout-table {
+    margin-top: 30px;
+    background: var(--bs-dark);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.symbol-combination {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.symbol-combination .symbols {
+    font-size: 24px;
+    margin-right: 20px;
+}

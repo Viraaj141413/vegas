@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4">🎮 Play Games, Earn Rewards!</h1>
+            <p class="lead text-muted">Have fun and win awesome prizes!</p>
+        </div>
+    </div>
+
+    <!-- Daily Bonus Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card bg-dark border-info bounce-animation">
+                <div class="card-body text-center">
+                    <h3 class="text-info">🎁 Daily Rewards!</h3>
+                    <div class="d-flex justify-content-center gap-4 mt-3">
+                        <div>
+                            <h5>Daily Prize</h5>
+                            <p class="mb-2">Get up to $5.00!</p>
+                            <a href="{{ url_for('my_center.my_center') }}" class="btn btn-info pulse-animation">Claim Now</a>
+                        </div>
+                        <div>
+                            <h5>Lucky Wheel</h5>
+                            <p class="mb-2">Win Big Prizes!</p>
+                            <a href="{{ url_for('my_center.my_center') }}" class="btn btn-warning pulse-animation">Spin Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Games -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="mb-4">⭐ Popular Games</h2>
+        </div>
+        {% for game in games %}
+        {% if game.theme == 'featured' %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 bg-dark border-primary game-card">
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ game.name }}</h3>
+                    <p class="card-text">{{ game.description }}</p>
+                    <div class="mb-3">
+                        <span class="badge bg-warning text-dark">Top Prize: ${{ "%.2f"|format(game.jackpot_amount) }}</span>
+                    </div>
+                    <a href="{{ url_for('game.slot_game', game_id=game.id) }}" class="btn btn-primary btn-lg pulse-animation">Start Playing! 🎮</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Fun Games -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">🎯 Quick Fun Games</h2>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100 bg-dark game-card">
+                <div class="card-body text-center">
+                    <h4>🎯 Bubble Pop</h4>
+                    <p>Pop bubbles for prizes!</p>
+                    <div class="mb-3">
+                        <small class="text-muted">Win up to $20.00!</small>
+                    </div>
+                    <a href="{{ url_for('my_center.more_games') }}#bubble" class="btn btn-outline-info">Play Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100 bg-dark game-card">
+                <div class="card-body text-center">
+                    <h4>🃏 Card Master</h4>
+                    <p>Fun card matching!</p>
+                    <div class="mb-3">
+                        <small class="text-muted">Win up to $20.00!</small>
+                    </div>
+                    <a href="{{ url_for('my_center.more_games') }}#solitaire" class="btn btn-outline-info">Play Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100 bg-dark game-card">
+                <div class="card-body text-center">
+                    <h4>🎮 Triple Match</h4>
+                    <p>Match 3 to win!</p>
+                    <div class="mb-3">
+                        <small class="text-muted">Win up to $20.00!</small>
+                    </div>
+                    <a href="{{ url_for('my_center.more_games') }}#tripeaks" class="btn btn-outline-info">Play Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100 bg-dark game-card">
+                <div class="card-body text-center">
+                    <h4>🎲 Lucky Roll</h4>
+                    <p>Roll for prizes!</p>
+                    <div class="mb-3">
+                        <small class="text-muted">Win up to $20.00!</small>
+                    </div>
+                    <a href="{{ url_for('my_center.more_games') }}#dice" class="btn btn-outline-info">Play Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.game-card {
+    transition: transform 0.2s;
+}
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.bounce-animation {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %}

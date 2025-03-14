@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="slot-container">
+    <div class="balance-display">
+        <div class="balance-box">
+            <h5>Balance</h5>
+            <div id="balance">${{ "%.2f"|format(user.balance) }}</div>
+        </div>
+        <div class="balance-box">
+            <h5>Bonus</h5>
+            <div id="bonusBalance">${{ "%.2f"|format(user.bonus_balance) }}</div>
+        </div>
+    </div>
+
+    <canvas id="slotCanvas"></canvas>
+    
+    <div class="game-controls">
+        <select id="betAmount" class="form-select" style="width: auto;">
+            {% for amount in bet_amounts %}
+            <option value="{{ amount }}" {% if amount == user.current_bet %}selected{% endif %}>
+                ${{ "%.2f"|format(amount) }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="useBonus">
+            <label class="form-check-label" for="useBonus">Use Bonus Balance</label>
+        </div>
+        
+        <button id="spinButton" class="btn btn-warning">SPIN!</button>
+    </div>
+
+    <div id="message" class="alert" role="alert"></div>
+
+    {% include 'game/payout_table.html' %}
+</div>
+
+<script>
+    const GAME_ID = {{ game.id }};
+</script>
+<script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+<script src="{{ url_for('static', filename='js/slot.js') }}"></script>
+{% endblock %}

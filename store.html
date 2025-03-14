@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- User Balance Display -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card bg-dark border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Your Balance</h5>
+                    <h3 class="mb-0">${{ "%.2f"|format(current_user.balance) }}</h3>
+                    <small class="text-muted">Bonus Balance: ${{ "%.2f"|format(current_user.bonus_balance) }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Deals Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="mb-4">🌟 Featured Deals</h2>
+        </div>
+        {% for deal in featured_deals %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-warning bg-dark position-relative">
+                {% if deal.bonus_percentage >= 50 %}
+                <div class="position-absolute top-0 end-0 p-2">
+                    <span class="badge bg-danger">HOT! {{ "%.0f"|format(deal.bonus_percentage) }}% BONUS</span>
+                </div>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ deal.description }}</h5>
+                    <div class="my-4">
+                        <h3 class="text-warning mb-2">${{ "%.2f"|format(deal.total_value) }}</h3>
+                        <p class="text-muted">Pay only ${{ "%.2f"|format(deal.amount) }}</p>
+                    </div>
+                    <a href="{{ deal.paypal_link }}" target="_blank" class="btn btn-warning btn-lg w-100">
+                        Buy Now 🚀
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- All Payment Options -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">All Recharge Options</h2>
+        </div>
+        {% for link in payment_links %}
+        {% if not link.is_featured %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 bg-dark">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${{ "%.2f"|format(link.amount) }}</h5>
+                    {% if link.bonus_amount > 0 %}
+                    <p class="text-success">+${{ "%.2f"|format(link.bonus_amount) }} Bonus!</p>
+                    {% endif %}
+                    <a href="{{ link.paypal_link }}" target="_blank" class="btn btn-outline-primary w-100">
+                        Recharge
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

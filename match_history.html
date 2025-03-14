@@ -1,0 +1,94 @@
+<div class="match-history">
+    <h3 class="fun-title text-center mb-4">🏆 Your Match History</h3>
+    
+    <!-- Active Matches -->
+    {% if active_matches %}
+    <div class="mb-4">
+        <h4 class="text-info mb-3">🎮 Active Matches</h4>
+        {% for match in active_matches %}
+        <div class="record-item">
+            <div>
+                <h5>{{ match.game_type }} - Round #{{ match.round_id }}</h5>
+                <small class="text-muted">Started {{ match.timestamp.strftime('%I:%M %p') }}</small>
+            </div>
+            <div class="text-end">
+                <div class="mb-2">Current Position: #{{ match.current_rank }}</div>
+                <button class="btn btn-sm btn-warning">View Live Results</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Completed Matches -->
+    {% if completed_matches %}
+    <div>
+        <h4 class="text-success mb-3">✨ Completed Matches</h4>
+        {% for match in completed_matches %}
+        <div class="record-item {% if not match.claimed %}unclaimed{% endif %}">
+            <div>
+                <h5>{{ match.game_type }}</h5>
+                <small class="text-muted">Finished {{ match.timestamp.strftime('%I:%M %p') }}</small>
+                <div>Final Rank: #{{ match.rank }}</div>
+            </div>
+            <div class="text-end">
+                {% if match.prize_awarded > 0 %}
+                <div class="prize-amount mb-2">${{ "%.2f"|format(match.prize_awarded) }}</div>
+                {% endif %}
+                {% if not match.claimed %}
+                <button onclick="claimPrize('{{ match.id }}')" class="fun-button">
+                    Claim Prize! 🎁
+                </button>
+                {% else %}
+                <span class="badge bg-success">Claimed ✓</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if not active_matches and not completed_matches %}
+    <div class="text-center py-4">
+        <h4>No matches yet! Time to play! 🎮</h4>
+        <a href="{{ url_for('game.lobby') }}" class="fun-button mt-3">Start Playing!</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function claimPrize(matchId) {
+    fetch(`/api/claim-prize/${matchId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            // Show fireworks animation
+            createFireworks();
+            // Refresh the page after animation
+            setTimeout(() => location.reload(), 2000);
+        }
+    });
+}
+
+function createFireworks() {
+    const fireworkContainer = document.createElement('div');
+    fireworkContainer.className = 'firework';
+    document.body.appendChild(fireworkContainer);
+
+    for(let i = 0; i < 10; i++) {
+        const explosion = document.createElement('div');
+        explosion.className = 'explosion';
+        explosion.style.left = Math.random() * 100 + '%';
+        explosion.style.top = Math.random() * 100 + '%';
+        explosion.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        fireworkContainer.appendChild(explosion);
+    }
+
+    setTimeout(() => fireworkContainer.remove(), 1000);
+}
+</script>

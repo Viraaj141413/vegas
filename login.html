@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card bg-dark border-primary">
+            <div class="card-header text-center border-primary">
+                <h3 class="text-primary mb-0">🎮 Welcome to Money Games!</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control bg-dark text-light") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control bg-dark text-light") }}
+                    </div>
+                    <div class="mb-3 form-check">
+                        {{ form.remember_me(class="form-check-input") }}
+                        {{ form.remember_me.label(class="form-check-label") }}
+                    </div>
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </form>
+                <div class="text-center mt-3">
+                    <p>New player? <a href="{{ url_for('auth.register') }}" class="text-primary">Join Now!</a></p>
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            <h5 class="text-center">🎁 New Player Bonus!</h5>
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <span class="fs-4">$5.00</span>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='gold' viewBox='0 0 16 16'%3E%3Cpath d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13zm.5-11h-1v4h-4v1h4v4h1v-4h4v-1h-4v-4z'/%3E%3C/svg%3E" 
+                                     alt="Bonus Coins" class="me-2">
+                            </div>
+                            <button class="btn btn-warning btn-sm mt-2">Join & Claim Now! 🎮</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
